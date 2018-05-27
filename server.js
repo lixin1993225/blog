@@ -1,6 +1,7 @@
 const express = require("express");
 const expressStatic = require("express-static");
-const multer = require("multer")
+const multer = require("multer");
+const bodyParser = require("body-parser");
 const multerObj = multer({dest:'./static/upload'})
 const mysql = require("mysql");
 const cookieParser = require("cookie-parser");
@@ -9,9 +10,11 @@ const consolidate = require("consolidate");
 const ejs = require("ejs")
 const expressRoute = require('express-route');
 var server = express();
-server.listen(8080)
+
+server.listen(8080);
 //1.获取请求数据
 //get自带
+server.use(bodyParser.urlencoded())
 server.use(multerObj.any());//上传东西
 //2.cookie session
 server.use(cookieParser());
@@ -56,9 +59,18 @@ server.engine('html',consolidate.ejs);//需要用ejs来渲染html模版
 // })
 
 //4 route
-server.use('/admin',require('./route/admin.js')());
+server.use('/admin',require('./route/admin/index.js')());
 server.use('/',require('./route/web')());
-
 
 //在那个目录下获取东西
 server.use(expressStatic('./static/'))
+
+// var db = mysql.createPool({
+// 	host:"139.199.133.110",
+// 	user:"learn",
+// 	password:"lx1993225",
+// 	database:"learn"
+// });
+// var str = db.query(`SELECT username,password FROM admin`,(err,data)=>{
+
+// })

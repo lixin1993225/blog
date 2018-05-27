@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<% include components/top.inc.ejs%>
+	<form action="?" method="post">
+		标题：<input type="text" name="title"><br >
+		描述：<textarea name="descript" cols="30" rows="10"></textarea><br >
+		连接 <input type="text" name="href"><br >
+		<input type="submit" value="提交">
+	</form>
+	<table border="1" width="100%">
+		<thead>
+			<tr>
+				<td>ID</td>
+				<td>标题</td>
+				<td>描述</td>
+				<td>地址</td>
+				<td>操作</td>
+			</tr>
+		</thead>
+		<tbody>
+			<% for(var i=0;i<banners.length;i++){%>
+				<tr>
+					<td><%= banners[i].ID %></td>
+					<td><%= banners[i].title %></td>
+					<td><%= banners[i].description %></td>
+					<td><%= banners[i].href %></td>
+					<td>
+						<a href="?act=mod&id=<%= banners[i].ID%>">修改</a>
+						<a href="?act=del&id=<%= banners[i].ID%>" onclick="return confirm('您真的要删除吗')">删除</a>
+					</td>
+				</tr>
+			<% } %>
+		</tbody>
+	</table>
+	<div>
+		<% if(typeof mod_data!='undefined'){%>
+		<form action="?" method="post">
+			<input type="hidden" name="mod_id" value="<%= mod_data.ID%>"/><br>	
+			标题：<input type="text" name="title" value="<%= mod_data.title%>"><br >
+			描述：<textarea name="descript" cols="30" rows="10"><%= mod_data.description%></textarea><br >
+			连接 <input type="text" name="href"  value="<%= mod_data.href%>"><br >
+			<input type="submit" value="提交">
+		</form>		
+		<% } %>
+	</div>
+
+</body>
+</html>
